@@ -58,8 +58,6 @@ Exemplificando:
 Lifecycle:
 ![Redux](https://miro.medium.com/max/1838/1*BcmtHcMHN6PT7IniIWniHg.png)
 
-Integrar com service
-
 ## Store
 ```js
 import { createStore } from  'redux'
