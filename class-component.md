@@ -3,79 +3,101 @@
 
 ```javascript
 import React, { Component } from 'react'
-import {Text, View} from 'react-native'
+import { Text, View } from 'react-native'
 
-class basic extends Component {
-    // Método obrigatório para class components
+export default class BasicComponent extends Component {
+    // Método obrigatório, retorna o JSX que será renderizado na tela
     render() {
-        return <View><Text>Estrutura Básica de um component</Text></View>
+        return <Text>Estrutura básica de um component</Text>
     }
 }
-
-export default basic
-
 ```
 
 Ao herdar de `Component` passamos também a ter acesso aos métodos do ciclo de vida do componente.
-
 ```javascript
-class basic extends Component {
-    // Não está atrelado ao Ciclo de Vida do component
+export default class BasicComponent extends Component {
+    // O construtor é chamado antes que este componente seja montado
     constructor(props) {
+        // Deve ser a primeira coisa a ser chamada
+        // Caso contrário o this.props fica undefined no construtor, o que pode gerar bugs
         super(props)
     }
 
-    // Executado após o constructor. ANTES do Render
+    // Invocado somente uma vez, antes de renderizar o componente pela primeira vez
     componentWillMount() {}
 
-    // Método chamado para construir a View do component.
-    // Sempre é invocado novamente a cada alteração nas Props ou State do component
-    // Retorna um JSX
-    render() {
-        return (<jsx>View do Component</jsx>)
-    }
-
-    // Executado após o Render da View do component
+    // Invocado depois que o componente tiver terminado de renderizar
     componentDidMount() {}
 
-    // Chamado quando alterado Props ou State. Executado ANTES do Render
+    // Invocado quando alguma prop ou state muda, executado ANTES do render
     componentWillUpdate(newProps, newState) {}
 
-    // Chamado quando alterado Props ou State. Executado APÓS do Render
-    componentDidUpdate() {}
+    // Invocado quando alguma prop ou state muda, executado APÓS do render
+    componentDidUpdate(prevProps, prevState) {}
 
-    // Executado antes de desmontar um component
+    // Invocado antes do componente ser desmontado
     componentWillUnmount() {}
 
-}
-```
-
-Com Class component temos acesso a `Props` e `State` como propriedades da Classe.
-
-```javascript
-class basic extends Component {
+	// Método obrigatório, retorna o JSX que será renderizado na tela
+	// Invocado sempre que ocorre uma mudança em alguma prop ou state do componente
     render() {
-        return (<View><Text>{this.props.title - this.state.nameUser}</Text></View>)
+        return <Text>Estrutura básica de um component</Text>
     }
+}
+```
 
-    updateNameUser(name) {
-        this.setState({ nameUser: name })
+Para customizar os componentes com valores trazidos, muitas vezes, das telas que eles estão inseridos, utilizamos as `props`.
+```javascript
+import React, { Component } from 'react'
+import { Text, View } from 'react-native'
+
+export default class BasicComponent extends Component {
+    render() {
+        return <Text>{this.props.title}</Text>
     }
 }
 
+// Utilização do BasicComponent em uma tela, passando a prop title
+export default class BasicScreen extends Component {
+    render() {
+        return <BasicComponent title={'Título'}>
+    }
+}
 ```
 
-Passando `Props` e `State`
+Outro cenário comum é utilizarmos `state` para controlar os diferentes estados que nossos componentes podem ter. No exemplo, utilizamos o `state` para armazenar o valor digitado no input de texto.
+```javascript
+import React, { Component } from 'react'
+import { Text, View } from 'react-native'
 
+export default class InputComponent extends Component {
+	constructor (props) { 
+		super(props) 
+		this.state = { input: '' } 
+	}
+	
+	handleChangeInput = (text) => { this.setState({ input: text }) }
+
+	render () {
+		const { input } = this.state
+		
+		return <TextInput onChangeText={this.handleChangeInput} value={input}/>
+	}
+}
+```
+
+Exemplo utilizando  `props` e `state`
 ```javascript
 export class MovieCard extends Component {
     render() {
+	    const { title, year, director } = this.props
         return (
-                <View>
-                    <Text>Titulo Original:{this.props.title}<Text>
-                    <Text>Ano de Lançamento:{this.props.year}<Text>
-                    <Text>Diretor:{this.props.director}<Text>
-                <View>
+			<View>
+				<Text>Titulo Original: {title}<Text>
+				<Text>Ano de Lançamento: {year}<Text>
+				<Text>Diretor: {director}<Text>
+			<View>
+		)       
     }
 }
 ```
@@ -83,17 +105,18 @@ export class MovieCard extends Component {
 ```javascript
 export class MovieList extends Component {
     constructor() {
-        this.state = [
-            movies: ...this.service.getMovies()
-        ]
+        this.state = [ movies: ...this.service.getMovies()]
     }
+    
     render() {
-        return {this.state.movies.map((movie) =>
-            <MovieCard
-                title={movie.title}
-                year={movie.year}
-                director={movie.director}>
-            </MovieCard>)}
+	    const { movies } = this.state
+        return { movies.map((movie) => (
+	        <MovieCard
+				title={movie.title}
+				year={movie.year}
+				director={movie.director}
+			/>
+        )}
     }
 }
 ```
