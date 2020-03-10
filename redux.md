@@ -1,6 +1,6 @@
 # Redux
+
 [https://redux.js.org/basics/usage-with-react/](https://redux.js.org/basics/usage-with-react/)
-# Redux
 
 ## Qual problema Redux tenta resolver?
 
