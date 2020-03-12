@@ -1,6 +1,6 @@
 # Stateless Component
 
-```javascript
+```js
 import React from 'react'
 import {Text, View} from 'react-native'
 
@@ -13,7 +13,7 @@ export default component
 
 Acesso a `Props`
 
-```javascript
+```js
 import React from 'react'
 import {Text, View} from 'react-native'
 
@@ -32,7 +32,7 @@ https://pt-br.reactjs.org/docs/hooks-overview.html
 
 ## useState
 
-```javascript
+```js
 import React, { useState } from "react";
 import { Button, Text, View } from "react-native";
 
@@ -65,7 +65,7 @@ export default App;
 ## useEffect
 o hook `useEffect` pode resumir até 4 métodos do Ciclo de Vida do React
 
-```javascript
+```js
 import React, { useEffect, useState } from "react";
 import { Text, View, Button } from "react-native";
 

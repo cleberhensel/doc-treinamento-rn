@@ -16,7 +16,7 @@ Primeiramente, o Redux é uma biblioteca que gerencia os estados globais de uma 
 
 Conforme escrevemos uma aplicação, começamos a ver a necessidade de compartilhar estados entre componentes. Mas como fazer isso de forma correta?
 
-```javascript
+```js
 import React, { Component } from 'react'
 import { View } from 'react-native'
 
@@ -65,6 +65,27 @@ import  profile  from  './profile'
 export  default  createStore(profile)
 ```
 
+## Provider
+Conecta a aplicação a `Store`
+
+```js
+import  React  from  'react'
+import { Provider } from  'react-redux'
+import { HomeScreen } from  'screens'
+import  store  from  './src/store/createStore'
+
+export  default  class  App  extends  React.Component {
+
+	render() {
+		return (
+			<Provider  store={store}>
+				<AppContainer  />
+			</Provider>
+
+	)}
+}
+```
+
 ## Reducer
 ```js
 const initialState = {
@@ -92,33 +113,41 @@ export default ProfilesReducer
 
 ```
 
-## Provider
+## Screen
+
 ```js
-/* eslint-disable react/jsx-filename-extension */
+import React, { useEffect } from "react";
+import { FlatList, SafeAreaView } from "react-native";
+import { connect } from "react-redux";
 
-import  React  from  'react'
-import { Provider } from  'react-redux'
-import { HomeScreen } from  'screens'
-import  store  from  './src/store/createStore'
+import Post from "./post.component";
 
-export  default  class  App  extends  React.Component {
+const HomeScreen = props => {
+  useEffect(() => {
+    props.getProfiles();
+  }, []);
 
-	render() {
-		return (
-			<Provider  store={store}>
-				<AppContainer  />
-			</Provider>
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <FlatList
+        data={props.profile.posts}
+        renderItem={({ item }) => <Post post={item} />}
+        keyExtractor={(item, index) => `${index}`}
+      />
+    </SafeAreaView>
+  );
+};
 
-	)}
-}
-```
-Fluxo Redux:
+const mapDispatchToProps = dispatch => ({
+  getProfiles: () => dispatch({ type: "GET_PROFILE" })
+});
 
-```mermaid
-graph LR
-	A(Action Creators)  --> B(Store)
-	C(React Components) --> A
-	B --> D(Reducers)
-	D --> B
-	B --> C
+const mapStateToProps = state => ({
+  profile: state.profile
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomeScreen);
 ```

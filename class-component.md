@@ -1,7 +1,7 @@
 
 # Class Component
 
-```javascript
+```js
 import React, { Component } from 'react'
 import { Text, View } from 'react-native'
 
@@ -14,7 +14,7 @@ export default class BasicComponent extends Component {
 ```
 
 Ao herdar de `Component` passamos também a ter acesso aos métodos do ciclo de vida do componente.
-```javascript
+```js
 export default class BasicComponent extends Component {
     // O construtor é chamado antes que este componente seja montado
     constructor(props) {
@@ -38,8 +38,8 @@ export default class BasicComponent extends Component {
     // Invocado antes do componente ser desmontado
     componentWillUnmount() {}
 
-	// Método obrigatório, retorna o JSX que será renderizado na tela
-	// Invocado sempre que ocorre uma mudança em alguma prop ou state do componente
+    // Método obrigatório, retorna o JSX que será renderizado na tela
+    // Invocado sempre que ocorre uma mudança em alguma prop ou state do componente
     render() {
         return <Text>Estrutura básica de um component</Text>
     }
@@ -47,7 +47,9 @@ export default class BasicComponent extends Component {
 ```
 
 Para customizar os componentes com valores trazidos, muitas vezes, das telas que eles estão inseridos, utilizamos as `props`.
-```javascript
+
+```js
+
 import React, { Component } from 'react'
 import { Text, View } from 'react-native'
 
@@ -66,7 +68,9 @@ export default class BasicScreen extends Component {
 ```
 
 Outro cenário comum é utilizarmos `state` para controlar os diferentes estados que nossos componentes podem ter. No exemplo, utilizamos o `state` para armazenar o valor digitado no input de texto.
-```javascript
+
+```js
+
 import React, { Component } from 'react'
 import { Text, View } from 'react-native'
 
@@ -87,7 +91,9 @@ export default class InputComponent extends Component {
 ```
 
 Exemplo utilizando  `props` e `state`
-```javascript
+
+```js
+
 export class MovieCard extends Component {
     render() {
 	    const { title, year, director } = this.props
@@ -100,9 +106,11 @@ export class MovieCard extends Component {
 		)       
     }
 }
+
 ```
 
-```javascript
+```js
+
 export class MovieList extends Component {
     constructor() {
         this.state = [ movies: ...this.service.getMovies()]
@@ -119,4 +127,5 @@ export class MovieList extends Component {
         )}
     }
 }
+
 ```
